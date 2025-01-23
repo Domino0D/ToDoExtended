@@ -1,0 +1,46 @@
+
+  {
+    // "files.associations": {
+    //   "*.html": "html",
+    //   "*.htm": "html"
+    // },
+        "tailwindCSS.includeLanguages": {
+          "plaintext": "html",
+          "django-html": "html",
+          "jinja-html": "html"
+        },
+        "tailwindCSS.emmetCompletions": true,
+        "css.validate": false,
+        "scss.validate": false,
+        "less.validate": false,
+        "[django-html]": {
+          "editor.defaultFoldingRangeProvider": "Zignd.html-css-class-completion",
+          "editor.defaultFormatter": "Zignd.html-css-class-completion"
+        },
+        "editor.defaultFoldingRangeProvider": "Zignd.html-css-class-completion",
+        "editor.defaultFormatter": "Zignd.html-css-class-completion",
+        "notebook.defaultFormatter": "Zignd.html-css-class-completion",
+        "html.format.templating": false,
+        "css.styleSheets": ["**/${fileBasenameNoExtension}.css"],
+        
+          "files.associations": {
+            "**/*.html": "html",
+            "**/templates/**/*.html": "django-html",
+            "**/templates/**/*": "django-txt",
+            "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+        },
+        
+          "files.autoSave": "afterDelay",
+          "emmet.includeLanguages": {"django-html": "html"},
+        
+        
+        "django.snippets.exclude": [
+          "django-html",
+          "html",
+          "cms",
+          "wagtail"
+        ]
+        
+      
+      
+}

@@ -1,0 +1,17 @@
+{% extends "mydoto/main.html" %}
+{% block content %}
+<div class="confirm"> 
+    <div class="header-bar">
+        <a href="{% url "tasks" %}">&#8592; back</a>
+
+    </div>
+
+    <div class="card-body">
+        <form action="" method="post">
+            {% csrf_token %}
+            <p>  are you sure u wanna delete this task? {{task}} </p>
+            <input class="button" type="submit" value="Delete" id="">
+        </form>
+    </div>
+<div>
+{% endblock %}

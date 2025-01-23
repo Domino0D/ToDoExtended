@@ -1,0 +1,128 @@
+{% extends "mydoto/main.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="main">
+    <div class="elements">  
+        <div class="header-bar">
+            <div>
+                <h1>Witaj {{ request.user|title }}</h1>
+                {% if empty %}
+                    <h3>Użytkownik nie znaleziony</h3>
+                {% elif not is_own_tasks %}
+                    <h3>Przeglądasz zadania użytkownika {{ viewed_user.username }}</h3>
+                    <h4><a href="{% url 'tasks' %}">wróć</a></h4>
+                {% elif not private %}
+                    <h3 style="margin:0">Użytkownik ma <i>{{ count }}</i> nieukończone zadanie{{ count|pluralize:"ń" }}</h3>
+                {% else %}
+                    <h3 style="margin:0">Masz <i>{{ count }}</i> nieukończone zadanie{{ count|pluralize:"ń" }}</h3>
+                {% endif %}
+                {% if is_own_tasks %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ profile_form.as_p }}
+                        <button type="submit">submitt</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <div>
+                <a href="{% url 'logout' %}">Wyloguj</a> 
+            </div>
+            {% else %}
+                <a href="{% url 'login' %}">Zaloguj</a> 
+            {% endif %}
+        </div>
+
+        {% if not private %}
+        <div id="search-add-wrapper" class="input-group g-3" style="margin-top: 20px;">
+            <form method="GET" style="width: auto;">
+                <input type="text" class="form-control" name="search-area" value="{{ search_input }}" placeholder="Szukaj zadania">
+                <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Szukaj</button>
+            </form>
+            <form method="GET" style="width: auto;">
+                <select class="form-select border-secondary" name="tasks_filter">
+                    <option selected>Filter</option>
+                    <option value="" {% if tasks_filter == "" %}selected{% endif %}>Wszystkie</option>
+                    <option value="completed" {% if tasks_filter == "completed" %}selected{% endif %}>Ukończone</option>
+                    <option value="incomplete" {% if tasks_filter == "incomplete" %}selected{% endif %}>Nieukończone</option>
+                    <option value="OldToNew" {% if tasks_filter == "OldToNew" %}selected{% endif %}>Od najstarszego</option>
+                    <option value="NewToOld" {% if tasks_filter == "NewToOld" %}selected{% endif %}>Od najnowszego</option>
+                    <option value="NewCompleted" {% if tasks_filter == "NewCompleted" %}selected{% endif %}>Najnowsze ukończone</option>
+                    <option value="OldComplete" {% if tasks_filter == "OldComplete" %}selected{% endif %}>Najstarsze ukończone</option>
+                </select>
+                <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Szukaj</button>
+            </form>
+            {% if is_own_tasks%}
+                <a id="add-link" href="{% url 'task-create' %}">&#x2b</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div id="tasklist" class="task-items-wrapper">
+            {% if private %}
+                <p>Profil użytkownika jest prywatny. Nie możesz przeglądać jego zadań.</p>
+            {% else %}
+                {% for task in tasks %}
+                    <div class="task-wrapper" data-position="{{ task.pk }}">
+                        <div class="task-title">
+                            {% if task.complete %}
+                                <div class="task-complete-icon"></div>
+                                <i><s><a href="{% if is_own_tasks %}{% url 'task-update' task.id %}{% else %}#{% endif %}">{{ task }}</a></s></i> 
+                            {% else %}
+                                <div class="task-incomplete-icon"></div>
+                                <a href="{% if is_own_tasks %}{% url 'task-update' task.id %}{% else %}#{% endif %}">{{ task }}</a> 
+                            {% endif %}
+                        </div>
+                        {% if is_own_tasks %}
+                            <div class="task-controls">
+                                <a class="delete-link" href="{% url 'task-delete' task.id %}">&#215;</a>
+                                <span class="handle">&nbsp;</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div style="text-align: center; padding-bottom: 10px; line-height: 1em;">
+                        <h3>Nie utworzono nowych zadań.</h3>
+                        {% if is_own_tasks %}
+                            <h3>Utwórz <a style="text-decoration: none; color: #e53935;" href="{% url 'task-create' %}">nowe zadanie</a>!</h3>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="elements other_users"> 
+        <div id="search-add-wrapper" class="input-group header-bar">
+            <form method="GET" style="margin-top: 20px; width: auto;">
+                <input type="text" class="form-control" name="search-area-user" value="{{ search_input_user }}" placeholder="Szukaj użytkownika">
+                <br/>
+                <button class="btn btn-primary" type="submit">Szukaj </button>
+            </form>
+        </div>
+        <div class="users_links">
+            <h1>Lista użytkowników</h1>
+            <ul>
+                {% for user in all_users %}
+
+                    <div class="task-wrapper">
+                        <li class="task-title"><a href="{% url 'user-tasks' user.username %}">{{ user.username }}</a></li>
+                    </div>    
+                {% empty %}
+                    <li>Brak użytkowników do wyświetlenia</li>
+                {% endfor %}
+            </ul>
+        </div>
+    <div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+
