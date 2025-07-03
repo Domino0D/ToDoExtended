@@ -12,7 +12,7 @@ A Django-based advanced Todo application with enhanced features.
 
 ## Technologies Used
 
-- Python 3.x
+- Python 3
 - Django Framework
 - SQLite (default database)
 
