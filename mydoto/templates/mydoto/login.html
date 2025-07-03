@@ -7,11 +7,13 @@
         </div>
 
         <div class="card-body" style="width: 90%;">
+            {% comment %} login form with standard form, crsf token and button with submit type {% endcomment %}
             <form method="POST">
                 {% csrf_token %}
-                {{form.as_p}}
+                {{form.as_p}} 
                 <input class="button" type="submit" value="Login">
             </form>
+            {% comment %} link to register site {% endcomment %}
             <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
         </div>
     </div>
