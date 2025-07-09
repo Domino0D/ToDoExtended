@@ -54,6 +54,10 @@ python manage.py runserver
 - Manage your profile and privacy settings.
 - Use the search functionality to find tasks or users.
 
+## Demo
+
+![todo](https://github.com/user-attachments/assets/5fa9fcc8-dc02-43bd-81d7-29cb5eca055e)
+
 
 ## Contributing
 
